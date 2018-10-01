@@ -1,0 +1,276 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: AWS CloudFormation Sample Template for CFN Init
+Mapping:
+RegionMap:
+    us-east-1:
+        AMI: "ami-11cd9996e"
+    us-east-2:
+        AMI: " "
+    us-west-1:
+        AMI: ""
+    us-west-2:
+        AMI: ""
+parameters:
+    ProjectName:
+        Type: String
+        Default: daas
+    AWSRegion:
+        Type: string
+        AllowedValues:
+          - us-east-1
+          - us-east-2
+          - us-west-1
+          - us-west-2
+        Deafult: "us-east-1"
+    EnvType:
+        Type: String
+        AllowedValues:
+          - prod
+          - dev
+          - test
+    Default: "Prod"
+    ConstrainDescription: must specify prod, dev or test.
+    
+    VPC:
+        Type: Aws::EC2::VPC::Id
+        Default: vpc-952aeeef
+    HostedZoneName:
+        Type: String
+        Default: daas.cmscloud.local.
+    VPNPrivateSG:
+        Type: AWS::EC2::SecurityGroup::Id
+        Default: sg-b3bc13f9
+        Description: default ro project's automated vpn-private group
+    SCRAccessSG:
+        Type: AWS::EC2::SecurityGroup::Id
+        Default: sg-28b51a62
+        Description: default to project's automated crs-access group
+    GithubUN:
+        Type: String
+        Deafult: 'SJGC'
+        Dedcription: Username for Github
+    GithubBranch:
+        Type: String
+        Deafult: master
+    GithubRepo:
+        Type: string
+        Default: 'github.cms.gov/SJGC/devops-mgmt.git'
+        Description: repo where the devops mgmt framework is stored
+    CreateNexus:
+        Type: string
+        AllowedValues: [true, false]
+        Deafult: true
+        Description: conditional for Nexus EC2 creation
+    JenkinsAZ:
+        Type: String
+        Default: "us-east-1a"
+        AllowedValues: [us-east-1a, us-east-1b, us-east-1c, us-east-1d, us-east-1f, us-east-2a, us-east-2b, us-east-2c]
+    JenkinsSubnetId:
+        Type: AWS::EC2::Subnet::Id
+        Default: subnet-7ab20326
+    JenkinsKey:
+        Type: AWS:EC2:KeyPair:KeyName
+        Default: daas-jenkins-master-key
+    JenkinsKmsId:
+        Type: String
+        Default: ---------------------------------------------------------------------
+        Description: Encryption key used to secure the parameter stored
+    JenkinsEBSCreation:
+        Type: String
+        AllowedValues: [ true, false]
+        Default: false
+        Description: Conditional for jenkins EBS creation
+    JenkinsEFSCreation:
+        Type: String
+        AllowedValues: [true, false]
+        Default: false
+        Description: conditional for jenkins EFS creation
+    JenkinsVolumeSize:
+        Type: Number
+        MinValue: 1
+        MaxValue: 200
+        Default: 3
+        NexusAZ:
+        Type: String
+        Default: "us-east-1a"
+        AllowedValues: [us-east-1a, us-east-1b, us-east-1c, us-east-1d, us-east-1f, us-east-2a, us-east-2b, us-east-2c]
+    NexusSubnetId:
+        Type: AWS::Ec2::Subnet::Id
+        Default: subnet-7ab20326
+    NexusKey:
+        Type: AWS::EC2::KeyPair::KeyName
+        Default: daas-jenkins-deploy-key
+
+Conditions:
+CreateProdResources: !Equals [ !Ref EnvType, prod ]
+CreateDevResources: !Equals [ !Ref EnvType, dev ]
+CreateNexus: !Equals [ !Ref CreateNexus, true ]
+CreateJenkinsEFS: !Equals [ !Ref JenkinsEFSCreation, true ]
+CreateJenkinsEBS: ! Equals [ !Ref JenkinsEBSCreation, true ]
+
+
+Resources:
+    JenkinsRole:
+    Type: AWS::IAM::Jenkins::Role
+    Properties:
+    RoleName: !Sub "devops-mgmt-${ProjectName}-jenkins-role"
+    AssumeRolePolicyDocument:
+      Statement:
+        - Effect: Allow
+          Principal:
+           Service:
+            - ec2.amazonaws.com
+          Action:
+            - 'sts.Assumerole'
+          Path: /
+    RolePolicies:
+    Type: AWS::IAM::Policy
+    Properties:
+    PolicyName: !Sub "deveops-mgmt-${ProjectName}-jenkins-policy"
+    PolicyDocument:
+      Statement:
+        -Action:
+          - 'ssm.DescribeParameters'
+          - 'ec2:DescribeInstances'
+          - 'elasticfilesystem:DescribeMountTargets'
+          - 'ec2:AttachVolume'
+          - 'ec2:CopySnapshot'
+          - 'ec2:AuthorizeSecurityGroupIngress'
+          - 'ec2:DeleteSnapshot'
+          - 'ec2:ModifyVolumeAttribute'
+          - 'ec2:MonitorInstances'
+          - 'ec2:CreateImage'
+          - 'ec2:CopyImage'
+          - 'ec2:ModifyImageAttribute'
+          - 'ec2:UpdateSecurityGroupRuleDescriptionsIngress'
+          - 'ec2:StartInstances'
+          - 'ec2:CreateSecurityGroup'
+          - 'ec2:CreateSnapshot'
+          - 'ec2:ModifyInstanceAttribute'
+          - 'ec2:DetachVolume'
+          - 'ec2:AuthorizeSecurityGroupEgress'
+          - 'ec2:ModifyVolume'
+          - 'ec2:AssociateDhcpOptions'
+          - 'ec2:UpdateSecurityGroupRuleDescriptionsEgress'
+          - 'ec2:TerminateInstances'
+          - 'ec2:CreateTags'
+          - 'ec2:RegisterImage'
+          - 'ec2:RunInstances'
+          - 'ec2:StopInstances'
+          - 'ec2:CreateVolume'
+          - 'ec2:Describe*'
+          - 'ec2:AssociateAddress'
+          - 'ec2:AssociateIamInstanceProfile'
+        Effect: Allow
+        Resource: '*'
+      - Action:
+          - 'ssm:GetParameters'
+        Effect: Allow
+        Resource: 
+          - !Sub "arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/JenkinsDeployKey"
+          - !Sub "arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/GithubToken"
+
+      - Action:
+          - 'kms:Decrypt'
+        Effect: Allow
+        Resource: 
+          - !Sub "arn:aws:kms:${AWS::Region}:${AWS::AccountId}:key/${JenkinsKmsId}"
+    Roles:
+      - !Ref JenkinsRole
+  InstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+    Path: /
+    Roles:
+      - !Ref JenkinsRole
+
+ JenkinsEFS:
+    Type: AWS::EFS::FileSystem
+    Condition: CreateJenkinsEFS
+    Properties:
+    PerformanceMode: generalPurpose
+    FileSystemTags:
+      - Key: Name
+        Value: !Sub "devops-mgmt-${ProjectName}-jenkins-efs"
+      - Key: environment
+        Value: devops-mgmt
+
+ JenkinsMountTarget:
+    Type: AWS::EFS::MountTarget
+    Condition: CreateJenkinsEFS
+    Properties:
+    FileSystemId: !Ref JenkinsEFS
+    SubnetId: !Ref JenkinsSubnetId
+    SecurityGroups: 
+      - !Ref CSRAccessSG
+
+   Nexus:
+     Type: AWS::EC2::Instance
+     Condition: CreateNexus
+     Properties:
+       AvailabilityZone: !Ref NexusAZ
+       ImageId: !FindInMap [RegionMap, !Ref "AWSRegion", AMI]
+       InstanceType: !If [CreateProdResources, m5.large, !If [CreateDevResources, t2.small, t2.medium ]]
+       KeyName: !Ref NexusKey
+       SecurityGroupIds:
+         - !Ref VPNPrivateSG
+         - !Ref CSRAccessSG
+       SubnetId: !Ref NexusSubnetId
+       Tags:
+         - Key: Name
+           Value: !Sub "devops-mgmt-${ProjectName}-nexus"
+         - Key: environment
+           Value: devops-mgmt
+   Jenkins:
+     Type: AWS::EC2::Instance
+     Properties:
+       AvailabilityZone: !Ref JenkinsAZ
+       ImageId: !FindInMap [RegionMap, !Ref "AWSRegion", AMI]
+       InstanceType: !If [CreateProdResources, m5.large, !If [CreateDevResources, t2.small, t2.medium ]]
+       KeyName: !Ref JenkinsKey
+       IamInstanceProfile: !Ref InstanceProfile
+       SecurityGroupIds:
+         - !Ref CSRAccessSG
+         - !Ref VPNPrivateSG
+       SubnetId: !Ref JenkinsSubnetId
+       Tags:
+         - Key: Name
+           Value: !Sub "devops-mgmt-${ProjectName}-jenkins"
+         - Key: environment
+           Value: devops-mgmt  
+       UserData: 
+           Fn::Base64: 
+             !Sub 
+               - |
+                 #!/bin/bash -ex
+                 exec > >(tee /var/log/user-data.log|logger -t user-data -s 2>/dev/console) 2>&1
+                 /usr/local/aws/bin/pip install --upgrade awscli
+                 yum install git -y
+                 aws ssm get-parameters --names JenkinsDeployKey --with-decryption --region us-east-1 --query "Parameters[*].Value" --output text | sed -E 's/(-+(BEGIN|END) RSA PRIVATE KEY-+) *| +/\1/g' > /home/ec2-user/.ssh/id_rsa 2>&1
+                 aws ssm get-parameters --names GithubToken --with-decryption --region us-east-1 --query "Parameters[*].Value" --output text > /home/ec2-user/github-token 2>&1
+                 export TOKEN='cat /home/ec2-user/github-token'
+                 git clone -b ${GithubBranch} --single-branch https://${GithubUN}:$TOKEN@${GithubRepo} /home/ec2-user/devops-mgmt
+                 /bin/sh /home/ec2-user/devops-mgmt/setup_scripts/bootstrap.sh ${CreateNexus} ${JenkinsEFS_ID} ${AWSRegion} ${ProjectName} ${GithubUN} ${JenkinsEBSCreation}
+               - JenkinsEFS_ID: !If [CreateJenkinsEFS, !Ref JenkinsEFS, "false"]
+
+   JenkinsEBS:
+     Type: AWS::EC2::Volume
+     Condition: CreateJenkinsEBS
+     Properties:
+       AvailabilityZone: !Ref JenkinsAZ
+       Size: !Ref JenkinsVolumeSize
+       Tags:
+         - Key: Name
+           Value: !Sub "devops-mgmt-${ProjectName}-jenkins-ebs"
+         - Key: environment
+           Value: devops-mgmt  
+		   
+   JenkinsMountPoint:
+     Type: AWS::EC2::VolumeAttachment
+     Condition: CreateJenkinsEBS
+     Properties:
+       InstanceId: !Ref Jenkins
+       VolumeId: !Ref JenkinsEBS
+       Device: /dev/sdh
+	   
+	   
