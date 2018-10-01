@@ -1,0 +1,360 @@
+AWSTemplateFormatVersion: 2010-09-09
+Mapping:
+RegionMap:
+us-east-1:
+AMI: "ami-11cd9996e"
+us-east-2:
+AMI: " "
+us-west-1:
+AMI: ""
+us-west-2:
+AMI: ""
+parameters:
+ProjectName:
+Type: String
+D efault: daas
+AWSRegion:
+Type: string
+AllowedValues:[us-east-1, us-east-2, us-west-1, us-west-2]
+Deafult: "us-east-1"
+EnvType:
+Type: String
+AllowedValues:[ prod, dev, test]
+Default: "Prod"
+ConstrainDescription: must specify prod, dev or test.
+VPC:
+Type: Aws::EC2::VPC::Id
+Default: vpc-952aeeef
+HostedZoneName:
+Type: String
+Default: daas.cmscloud.local.
+VPNPrivateSG:
+Type: AWS::EC2::SecurityGroup::Id
+Default: sg-b3bc13f9
+Dedcription: default ro project's automated vpn-private group
+SCRAccessSG:
+Type:AWS::EC2::SecurityGroup::Id
+Default: sg-28b51a62
+Description: default to project's automated crs-access group
+GithubUN:
+Type: String
+Deafult:'SJGC'
+Dedcription: Username for Github
+GithubBranch:
+Type: String
+Deafult: master
+GithubRepo:
+Type: string
+Default:'github.cms.gov/SJGC/devops-mgmt.git'
+Description: repo where the devops mgmt framework is stored
+CreateNexus:
+Type: string
+AllowedValues: [true, false]
+Deafult: true
+Description: conditional for Nexus EC2 creation
+CreateSonar:
+Type: string
+AllowedValues: [true, false ]
+Deafult: true
+Description: conditional for Sonar EC2 creation
+JenkinsAZ:
+Type:String
+Default: "us-east-1a"
+AllowedValues: [us-east-1a, us-east-1b, us-east-1c, us-east-1d, us-east-1f, us-east-2a, us-east-2b, us-east-2c]
+JenkinsSubnetId:
+Type:AWS::EC2::Subnet::Id
+Default: subnet-7ab20326
+JenkinsKey:
+Type:AWS:EC2:KeyPair:KeyName
+Default:daas-jenkins-master-key
+JenkinsKmsId:
+Type: String
+Default: ---------------------------------------------------------------------
+Description: Encryption key used to secure the parameter stored
+JenkinsEBSCreation:
+Type: String
+AllowedValues: [ true, false]
+Default: false
+Description: Conditional for jenkins EBS creation
+JenkinsEFSCreation:
+Type: String
+AllowedValues: [true, false]
+Default: false
+Description: conditional for jenkins EFS creation
+JenkinsVolumeSize:
+Type: Number
+MinValue: 1
+MaxValue: 200
+Default: 3
+NexusAZ:
+Type: String
+Default: "us-east-1a"
+AllowedValues: [[us-east-1a, us-east-1b, us-east-1c, us-east-1d, us-east-1f, us-east-2a, us-east-2b, us-east-2c]
+NexusSubnetId;
+Type: AWS::Ec2::Subnet::Id
+Default: subnet-7ab20326
+NexysKey:
+Type: AWS::EC2::KeyPair::KeyName
+Default: daas-jenkins-deploy-key
+SonarAZ
+Type: String
+Default:"us-east-1a"
+AllowedValues: [us-east-1a, us-east-1b, us-east-1c, us-east-1d, us-east-1f, us-east-2a, us-east-2b, us-east-2c]
+SonarSubnetId:
+Type: AWS::EC2::SubNet::Id
+Default: subnet-7ab20326
+SonarKey:
+Type:AWS::EC@::KeyPair::KeyName
+Default: daas-jenkins-deploy-key
+
+Conditions:
+CreateProdResources: ! Equals [ !Ref EnvType, prod ]
+CreateDevResources: !Equals [ !Ref EnvType, dev ]
+CreateNexus: !Equals [ !Ref CreateSonar, true ]
+CreateSonar: !Equals [ !Ref CreateSonar, true ]
+CreateJenkinsEFS: !Equals [ !Ref JenkinsEFSCreation, true ]
+CreateJenkinsEBS: ! Equals [ !Ref JenkinsEBSCreation, true ]
+
+
+Resources:
+DNSHostedZone:
+# Type: AWS::Route53::HostedZone
+# Properties:
+HostedZoneConfig:
+Comment: "Hosted zone for Daas"
+# Name: !Ref HostedZoneName
+#   VPCs:
+#     -
+# VPCId: !Ref VPC
+# VPCregion: !Ref AWSRegion
+# HostedZoneTags:
+# -
+# Key:Name
+# Value: Daas
+
+
+
+Type; AWS::IAM::Jenkins::Role
+Properties:
+RoleName: !Sub "devops-mgmt-${ProjectName}-jenkins-role"
+AssumeRolePolicyDocument:
+Statement:
+- Effect: Allow
+Principal:
+Service:
+- ec2.amazonaws.com
+Action:
+- 'sts.Assumerle'
+Path: /
+RolePolicies:
+Type: AWS::IAM::Policy
+Properties:
+PolicyName: !Sub "deveops-mgmt-${ProjectName}-jenkins-policy"
+PolicyDocument:
+Statement:
+-Action:
+- 'ssm.DescribeParameters'
+- 'ec2:DescribeInstances'
+- 'elasticfilesystem:DescribeMountTargets'
+Effect: Allow
+Resources:'*'
+- Action:
+- 'ssm:GetParameters'
+Effect: Allow
+Resources:
+- !Sub "arn:aws:ssm:${AWS::Region}:${AWS::Accountid}:parameter/JenkinsDeployKey"
+!Sub "arn:aws:ssm:${AWS::Region}:${AWS::Accountid}:parameter/GithubToken"
+- Action:
+-'kms:Decrypt'
+Effect: Allow
+Resources:
+- !Sub "arn:aws:kms:$${AWS::Region}:${AWS::Accountid}:key/${JenkinsKmsID}"
+Roles:
+- !Ref JenkinsRole
+InstanceProfile:
+Type: AWS::IAM::InstanceProfile
+Properties:
+Path: /
+Roles:
+- !Ref JenkinsRole
+JenkinsEFS
+Type: AWS::EFS::FileSystem
+Condition: CreateJenkinsEFS
+Properties:
+PerformanceMode: generalPurpose
+FileSystemTags:
+- key:Name
+Value: ! Sub "devops-mgmt-${ProjectName}-jenkins-efs"
+JenkinsMountTarget:
+Type: AWS::EFS::MountTarget
+Condition: CreateJenkinsEFS
+Properties:
+FileSystemID: !Ref JenkinsEFS
+SubnetId: !Ref JenkinsSubnetId
+SecurityGroups:
+- Ref CSRAccessSG
+
+Nexus:
+Type: AWS::EC@::Instance
+Condition: CreateNexus
+Properties:
+AvailabilityZone: !Ref NexusAZ
+ImageID: !FindInMap [RegionMap, !Ref "AWSRegion", AMI]
+InstanceType: !If [ CreateProdResources, m5.large, !If [CreateDevResources, t2.small, t2.medium]]
+KeyName: !Ref NexusKey
+SecurityGroupIds:
+- !Ref VPMPrivateSG
+-!Ref CSRAccessSG
+SubnetId: !Ref NexusSubnetId
+Tags:
+- Key: Name
+Value: !Sub "devops-mgmt-${ProjectName}-nexus"
+Sonar:
+Type: AWS::EC2::Instance
+Condition: CreateSonar
+Properties:
+AvailabilityZone: !Ref SonarAZ
+ImageID: !FindMap [RegionMao, !Ref "AWSREgiiona", AMI]
+InstanceType: !If [CreateProdResources, m5.large, !If [CreateDevResources, t2.sall, t2.medium]]
+KeyName: !Ref SonarKey
+SecurityGroupIds:
+- !Ref VPNPrivateSG
+- !REf CSRAccessSG
+SubnetID: !Ref SonarSubnetId
+Tags:
+- Key: Name
+Value: !Sub "devops-mgmt-${ProjectName}-sonar"
+Jenkins:
+Type: AWS::EC2::Instance
+Properties:
+AvailabilityZone: !Ref JenkinsAZ
+ImageID: !FindinMap [ RegionMap, !Ref "AWSRegion", AMI]
+InstanceType: !If [createProdResources, m5.large, !If [CreateDevResources, t2.small, t2.medium]]
+KeyName: !Ref Jenkins Key 
+IamInstanceProfile: !Ref InstanceProfile
+SecurityGroupIds:
+- !Ref CSRAccessSG
+- !Ref VPMPrivateSG
+SubnetID: !Ref JenkinsSubnetId
+Tags:
+- Key: Name
+Value: !Sub " Devops-mgmt-${ProjectName}- jenkins
+UserData:
+Fn::Base64
+    !Sub
+    -  |
+    #!/bin/bash -ex
+    exec > > (tee /var/log/user-data|logger -t user-data -s 2>/dev/console) 2>&1
+    /user/local/aws/bin/pip install --upgrade awscli
+    yum install git -y
+    aws ssm get-parameters --names JenkinsDeployKey --with- decryption --region us-east-1 --query "Parameters[*]. Value" --output text | sed-E 's/(-+9Begin|END) RSA PRIVATE KEY-+) *| +/\1\n/g' > /home/ec2-user/.ssh/id_rsa 2>1
+    aws ssm get-parameters --names GithubToken --with-decryption --region us-east-1 --query "Parameters[*]. Value" --output text > /home/ec2-user/github-token 2>&1
+    export token ='cat /home/ec2-user/github-token'
+    git clone -b $ {GithubBranch --single-branch Https://${GitHubUN}:$token @$:GithubRepo} /home/ec2-user/devops-mgmt
+    /bin/sh /home/ec2-user/deveops-mgmt/setup_scripts/bootstrap.sh $ {CreateSonar} ${JenkinsEFS_ID} ${AWSRegion} ${ProjectName} ${GitHubUN} ${JenkinsEBSCreation}
+    - JenkinsEFS-ID: !If [CreateJenkinsEFS, !Ref JenkinsEFS, "false"]
+    
+    # JenkinsR53
+    # Type: 'AWS::Route53::RecordSet'
+    # Properties:
+    # HostedZoneName: !Ref HostedZoneName
+    # Name: !Sub jenkins.${HostedZoneName}
+    # Type: A
+    # TTL: '900'
+    # ResourcesRecords:
+    #      -!GetATT Jenkins.PrivateIP
+    JenkinsEBS:
+    Type:AWS::EC2::Volume
+    Condition: CreateJenkinsEFS
+    Properties:
+    AvailabilityZone: !Ref JenkinsAZ
+    Size: !Ref JenkinsVolumeSize
+    Tags:
+    - Key: Name
+    Value: !Sub "devops-mgmt-${ProjectName} -jenkins-ebs"
+    JenkinsMountPoint:
+    Type: AWS::EC2::VolumeAttachment 
+    Conditino: CreateJenminsEFS
+    Properties:
+    InstanceID: !Ref Jenkins
+    VolumeID: !Ref JenminsEBS
+    Device: /dev/sdh
+    
+    
+    
+    
+       
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
