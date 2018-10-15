@@ -215,3 +215,113 @@ clear
 /opt/jenkins-cli,jar
 cd
 cd /opt/jenkins-cli.jar
+git init
+git --version
+clear
+git init 
+git config
+git config -list
+git init --list
+git init list
+cd .git
+ls
+cd
+git.status
+git reset
+sudo su
+uname 
+clear
+git remote add origin https://github.com/Kunena/Kunena-Forum/wiki/Create-a-new-branch-with-git-and-manage-branches
+git remote add origin https://github.com/user/repo.git
+git remote add 
+git remote -v
+git branch -a
+git diff 
+git status
+git add 
+git commit -m ":message"
+sudo su 
+cd var/lib/jenkins
+jenkins --version
+jenkins
+yum install jenkins
+sudo su
+cd /var/log/directory
+cd /var/log/ directory
+ls
+cd .
+cd
+curl -I https://aws.amazon.com
+cd /var/lib/jenkins
+JENKINS_HOME/secrets/initialAdminPassword
+cd /secrets/initialAdminPassword
+ls
+cat config.xml
+credentials.xml
+cat config.xml
+cd secrets
+sudo su 
+ls
+cd gitrepos
+ls
+git status 
+git status ls
+git init
+sudo su 
+java
+java --version
+gradle --version
+clear
+cd ~/
+wget -O ~/gradle-4.7-bin.zip https://services.gradle.org/distributions/gradle-4.7-bin.zip
+sudo yum -y install unzip java-1.8.0-openjdk
+sudo mkdir /opt/gradle
+sudo unzip -d /opt/gradle/ ~/gradle-4.7-bin.zip
+sudo vi /etc/profile.d/gradle.sh
+sudo chmod 755 /etc/profile.d/gradle.sh
+gradle --version
+exit
+gradle --version
+cd ~/
+mkdir my-project
+cd my-project
+gradle wrapper
+./gradlew build 
+ls
+./gradlew build
+gradle init 
+ls -la
+./gradlew build 
+vi build.gradle
+./gradlew sayHello
+vi build.gradle
+./gradlew sayHello
+./gradlew anotherTask
+sudo yum updte
+sudo yum update
+ls
+pw
+ansible 
+ansible --version
+which
+uname -v
+uname
+sudo yum install ansible
+epel-release
+sudo yum install ansible
+sudo rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+sudo yum install ansible
+python --version
+clear
+cd var/lib
+cd lib
+ls
+cd var/log/user_data.log
+cd var
+ls -al
+ssh -keygen -t rsa
+ssh-keygen -t rsa
+ls
+cd key.pem
+cat key.pem
+sudo su 

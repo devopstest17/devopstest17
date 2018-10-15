@@ -1,0 +1,6 @@
+task sayHello << {
+  println 'Hello, World!'
+ }
+task anotherTask << {
+  println 'This is another task'
+}

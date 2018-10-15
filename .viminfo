@@ -14,16 +14,16 @@
 $
 
 # Command Line History (newest to oldest):
+:wq!
+|2,0,1539058306,,"wq!"
+:q!
+|2,0,1539058108,,"q!"
 :q
 |2,0,1538024738,,"q"
-:wq!
-|2,0,1538024700,,"wq!"
 :wq
 |2,0,1538024522,,"wq"
 :w
 |2,0,1538024482,,"w"
-:q!
-|2,0,1537535110,,"q!"
 
 # Search String History (newest to oldest):
 ? @$
@@ -41,67 +41,246 @@ $
 |3,0,0,0,1,0,1537535110,"!"
 ""-	CHAR	0
 	o
-|3,1,36,0,1,0,1538024669,"o"
+|3,1,36,0,1,0,1539058259,"o"
 
 # File marks:
-'0  4  37  /etc/yum.repos.d/docker.repo
-|4,48,4,37,1538024958,"/etc/yum.repos.d/docker.repo"
-'1  8  0  /lib/kbd
-|4,49,8,0,1537535131,"/lib/kbd"
-'2  23  28  ~/key.pem
-|4,50,23,28,1537415633,"~/key.pem"
-'3  1  0  ~/.ssh/authorized-keys
-|4,51,1,0,1536724290,"~/.ssh/authorized-keys"
+'0  5  31  ~/my-project/build.gradle
+|4,48,5,31,1539058306,"~/my-project/build.gradle"
+'1  5  3  ~/my-project/build.gradle
+|4,49,5,3,1539058108,"~/my-project/build.gradle"
+'2  5  3  ~/my-project/build.gradle
+|4,50,5,3,1539058074,"~/my-project/build.gradle"
+'3  5  3  ~/my-project/build.gradle
+|4,51,5,3,1539058074,"~/my-project/build.gradle"
+'4  5  11  ~/my-project/build.gradle
+|4,52,5,11,1539058042,"~/my-project/build.gradle"
+'5  5  11  ~/my-project/build.gradle
+|4,53,5,11,1539058042,"~/my-project/build.gradle"
+'6  5  11  ~/my-project/build.gradle
+|4,54,5,11,1539058042,"~/my-project/build.gradle"
+'7  5  11  ~/my-project/build.gradle
+|4,55,5,11,1539058042,"~/my-project/build.gradle"
+'8  4  37  /etc/yum.repos.d/docker.repo
+|4,56,4,37,1538024958,"/etc/yum.repos.d/docker.repo"
+'9  8  0  /lib/kbd
+|4,57,8,0,1537535131,"/lib/kbd"
 
 # Jumplist (newest first):
+-'  5  31  ~/my-project/build.gradle
+|4,39,5,31,1539058306,"~/my-project/build.gradle"
+-'  3  0  ~/my-project/build.gradle
+|4,39,3,0,1539058239,"~/my-project/build.gradle"
+-'  2  24  ~/my-project/build.gradle
+|4,39,2,24,1539058226,"~/my-project/build.gradle"
+-'  5  3  ~/my-project/build.gradle
+|4,39,5,3,1539058108,"~/my-project/build.gradle"
+-'  5  3  ~/my-project/build.gradle
+|4,39,5,3,1539058074,"~/my-project/build.gradle"
+-'  5  11  ~/my-project/build.gradle
+|4,39,5,11,1539058042,"~/my-project/build.gradle"
+-'  1  0  ~/my-project/build.gradle
+|4,39,1,0,1539057872,"~/my-project/build.gradle"
+-'  1  0  ~/my-project/build.gradle
+|4,39,1,0,1539057872,"~/my-project/build.gradle"
+-'  1  0  ~/my-project/build.gradle
+|4,39,1,0,1539057872,"~/my-project/build.gradle"
+-'  1  0  ~/my-project/build.gradle
+|4,39,1,0,1539057872,"~/my-project/build.gradle"
+-'  4  37  /etc/yum.repos.d/docker.repo
+|4,39,4,37,1538024958,"/etc/yum.repos.d/docker.repo"
+-'  4  37  /etc/yum.repos.d/docker.repo
+|4,39,4,37,1538024958,"/etc/yum.repos.d/docker.repo"
+-'  4  37  /etc/yum.repos.d/docker.repo
+|4,39,4,37,1538024958,"/etc/yum.repos.d/docker.repo"
+-'  4  37  /etc/yum.repos.d/docker.repo
+|4,39,4,37,1538024958,"/etc/yum.repos.d/docker.repo"
+-'  4  37  /etc/yum.repos.d/docker.repo
+|4,39,4,37,1538024958,"/etc/yum.repos.d/docker.repo"
+-'  4  37  /etc/yum.repos.d/docker.repo
+|4,39,4,37,1538024958,"/etc/yum.repos.d/docker.repo"
+-'  4  37  /etc/yum.repos.d/docker.repo
+|4,39,4,37,1538024958,"/etc/yum.repos.d/docker.repo"
+-'  4  37  /etc/yum.repos.d/docker.repo
+|4,39,4,37,1538024958,"/etc/yum.repos.d/docker.repo"
+-'  4  37  /etc/yum.repos.d/docker.repo
+|4,39,4,37,1538024958,"/etc/yum.repos.d/docker.repo"
+-'  4  37  /etc/yum.repos.d/docker.repo
+|4,39,4,37,1538024958,"/etc/yum.repos.d/docker.repo"
+-'  4  37  /etc/yum.repos.d/docker.repo
+|4,39,4,37,1538024958,"/etc/yum.repos.d/docker.repo"
+-'  4  37  /etc/yum.repos.d/docker.repo
+|4,39,4,37,1538024958,"/etc/yum.repos.d/docker.repo"
+-'  4  37  /etc/yum.repos.d/docker.repo
+|4,39,4,37,1538024958,"/etc/yum.repos.d/docker.repo"
+-'  4  37  /etc/yum.repos.d/docker.repo
+|4,39,4,37,1538024958,"/etc/yum.repos.d/docker.repo"
+-'  4  37  /etc/yum.repos.d/docker.repo
+|4,39,4,37,1538024958,"/etc/yum.repos.d/docker.repo"
 -'  4  37  /etc/yum.repos.d/docker.repo
 |4,39,4,37,1538024958,"/etc/yum.repos.d/docker.repo"
 -'  16  0  /etc/yum.repos.d/docker.repo
 |4,39,16,0,1538024653,"/etc/yum.repos.d/docker.repo"
+-'  16  0  /etc/yum.repos.d/docker.repo
+|4,39,16,0,1538024653,"/etc/yum.repos.d/docker.repo"
+-'  16  0  /etc/yum.repos.d/docker.repo
+|4,39,16,0,1538024653,"/etc/yum.repos.d/docker.repo"
+-'  16  0  /etc/yum.repos.d/docker.repo
+|4,39,16,0,1538024653,"/etc/yum.repos.d/docker.repo"
+-'  16  0  /etc/yum.repos.d/docker.repo
+|4,39,16,0,1538024653,"/etc/yum.repos.d/docker.repo"
+-'  16  0  /etc/yum.repos.d/docker.repo
+|4,39,16,0,1538024653,"/etc/yum.repos.d/docker.repo"
+-'  16  0  /etc/yum.repos.d/docker.repo
+|4,39,16,0,1538024653,"/etc/yum.repos.d/docker.repo"
+-'  16  0  /etc/yum.repos.d/docker.repo
+|4,39,16,0,1538024653,"/etc/yum.repos.d/docker.repo"
+-'  16  0  /etc/yum.repos.d/docker.repo
+|4,39,16,0,1538024653,"/etc/yum.repos.d/docker.repo"
+-'  16  0  /etc/yum.repos.d/docker.repo
+|4,39,16,0,1538024653,"/etc/yum.repos.d/docker.repo"
+-'  16  0  /etc/yum.repos.d/docker.repo
+|4,39,16,0,1538024653,"/etc/yum.repos.d/docker.repo"
+-'  16  0  /etc/yum.repos.d/docker.repo
+|4,39,16,0,1538024653,"/etc/yum.repos.d/docker.repo"
+-'  16  0  /etc/yum.repos.d/docker.repo
+|4,39,16,0,1538024653,"/etc/yum.repos.d/docker.repo"
+-'  16  0  /etc/yum.repos.d/docker.repo
+|4,39,16,0,1538024653,"/etc/yum.repos.d/docker.repo"
+-'  16  0  /etc/yum.repos.d/docker.repo
+|4,39,16,0,1538024653,"/etc/yum.repos.d/docker.repo"
+-'  16  0  /etc/yum.repos.d/docker.repo
+|4,39,16,0,1538024653,"/etc/yum.repos.d/docker.repo"
+-'  1  10  /etc/yum.repos.d/docker.repo
+|4,39,1,10,1538024650,"/etc/yum.repos.d/docker.repo"
+-'  1  10  /etc/yum.repos.d/docker.repo
+|4,39,1,10,1538024650,"/etc/yum.repos.d/docker.repo"
+-'  1  10  /etc/yum.repos.d/docker.repo
+|4,39,1,10,1538024650,"/etc/yum.repos.d/docker.repo"
+-'  1  10  /etc/yum.repos.d/docker.repo
+|4,39,1,10,1538024650,"/etc/yum.repos.d/docker.repo"
+-'  1  10  /etc/yum.repos.d/docker.repo
+|4,39,1,10,1538024650,"/etc/yum.repos.d/docker.repo"
+-'  1  10  /etc/yum.repos.d/docker.repo
+|4,39,1,10,1538024650,"/etc/yum.repos.d/docker.repo"
+-'  1  10  /etc/yum.repos.d/docker.repo
+|4,39,1,10,1538024650,"/etc/yum.repos.d/docker.repo"
+-'  1  10  /etc/yum.repos.d/docker.repo
+|4,39,1,10,1538024650,"/etc/yum.repos.d/docker.repo"
+-'  1  10  /etc/yum.repos.d/docker.repo
+|4,39,1,10,1538024650,"/etc/yum.repos.d/docker.repo"
+-'  1  10  /etc/yum.repos.d/docker.repo
+|4,39,1,10,1538024650,"/etc/yum.repos.d/docker.repo"
+-'  1  10  /etc/yum.repos.d/docker.repo
+|4,39,1,10,1538024650,"/etc/yum.repos.d/docker.repo"
+-'  1  10  /etc/yum.repos.d/docker.repo
+|4,39,1,10,1538024650,"/etc/yum.repos.d/docker.repo"
+-'  1  10  /etc/yum.repos.d/docker.repo
+|4,39,1,10,1538024650,"/etc/yum.repos.d/docker.repo"
+-'  1  10  /etc/yum.repos.d/docker.repo
+|4,39,1,10,1538024650,"/etc/yum.repos.d/docker.repo"
+-'  1  10  /etc/yum.repos.d/docker.repo
+|4,39,1,10,1538024650,"/etc/yum.repos.d/docker.repo"
 -'  1  10  /etc/yum.repos.d/docker.repo
 |4,39,1,10,1538024650,"/etc/yum.repos.d/docker.repo"
 -'  8  0  /lib/kbd
 |4,39,8,0,1537535131,"/lib/kbd"
 -'  8  0  /lib/kbd
 |4,39,8,0,1537535131,"/lib/kbd"
+-'  8  0  /lib/kbd
+|4,39,8,0,1537535131,"/lib/kbd"
+-'  8  0  /lib/kbd
+|4,39,8,0,1537535131,"/lib/kbd"
+-'  8  0  /lib/kbd
+|4,39,8,0,1537535131,"/lib/kbd"
+-'  8  0  /lib/kbd
+|4,39,8,0,1537535131,"/lib/kbd"
+-'  8  0  /lib/kbd
+|4,39,8,0,1537535131,"/lib/kbd"
+-'  8  0  /lib/kbd
+|4,39,8,0,1537535131,"/lib/kbd"
+-'  8  0  /lib/kbd
+|4,39,8,0,1537535131,"/lib/kbd"
+-'  8  0  /lib/kbd
+|4,39,8,0,1537535131,"/lib/kbd"
+-'  8  0  /lib/kbd
+|4,39,8,0,1537535131,"/lib/kbd"
+-'  8  0  /lib/kbd
+|4,39,8,0,1537535131,"/lib/kbd"
+-'  8  0  /lib/kbd
+|4,39,8,0,1537535131,"/lib/kbd"
+-'  8  0  /lib/kbd
+|4,39,8,0,1537535131,"/lib/kbd"
+-'  8  0  /lib/kbd
+|4,39,8,0,1537535131,"/lib/kbd"
+-'  8  0  /lib/kbd
+|4,39,8,0,1537535131,"/lib/kbd"
+-'  8  0  /lib/kbd
+|4,39,8,0,1537535131,"/lib/kbd"
+-'  8  0  /lib/kbd
+|4,39,8,0,1537535131,"/lib/kbd"
+-'  8  0  /lib/kbd
+|4,39,8,0,1537535131,"/lib/kbd"
+-'  8  0  /lib/kbd
+|4,39,8,0,1537535131,"/lib/kbd"
+-'  8  0  /lib/kbd
+|4,39,8,0,1537535131,"/lib/kbd"
+-'  8  0  /lib/kbd
+|4,39,8,0,1537535131,"/lib/kbd"
+-'  8  0  /lib/kbd
+|4,39,8,0,1537535131,"/lib/kbd"
+-'  8  0  /lib/kbd
+|4,39,8,0,1537535131,"/lib/kbd"
+-'  8  0  /lib/kbd
+|4,39,8,0,1537535131,"/lib/kbd"
+-'  8  0  /lib/kbd
+|4,39,8,0,1537535131,"/lib/kbd"
+-'  8  0  /lib/kbd
+|4,39,8,0,1537535131,"/lib/kbd"
+-'  8  0  /lib/kbd
+|4,39,8,0,1537535131,"/lib/kbd"
+-'  8  0  /lib/kbd
+|4,39,8,0,1537535131,"/lib/kbd"
+-'  8  0  /lib/kbd
+|4,39,8,0,1537535131,"/lib/kbd"
+-'  8  0  /lib/kbd
+|4,39,8,0,1537535131,"/lib/kbd"
+-'  8  0  /lib/kbd
+|4,39,8,0,1537535131,"/lib/kbd"
 -'  1  0  /lib/kbd
 |4,39,1,0,1537534987,"/lib/kbd"
 -'  1  0  /lib/kbd
 |4,39,1,0,1537534987,"/lib/kbd"
--'  23  28  ~/key.pem
-|4,39,23,28,1537415633,"~/key.pem"
--'  23  28  ~/key.pem
-|4,39,23,28,1537415633,"~/key.pem"
--'  23  28  ~/key.pem
-|4,39,23,28,1537415633,"~/key.pem"
--'  23  28  ~/key.pem
-|4,39,23,28,1537415633,"~/key.pem"
--'  1  0  ~/key.pem
-|4,39,1,0,1537415522,"~/key.pem"
--'  1  0  ~/key.pem
-|4,39,1,0,1537415522,"~/key.pem"
--'  1  0  ~/key.pem
-|4,39,1,0,1537415522,"~/key.pem"
--'  1  0  ~/key.pem
-|4,39,1,0,1537415522,"~/key.pem"
--'  1  0  ~/.ssh/authorized-keys
-|4,39,1,0,1536724290,"~/.ssh/authorized-keys"
--'  1  0  ~/.ssh/authorized-keys
-|4,39,1,0,1536724290,"~/.ssh/authorized-keys"
--'  1  0  ~/.ssh/authorized-keys
-|4,39,1,0,1536724290,"~/.ssh/authorized-keys"
--'  1  0  ~/.ssh/authorized-keys
-|4,39,1,0,1536724290,"~/.ssh/authorized-keys"
--'  1  0  ~/.ssh/authorized-keys
-|4,39,1,0,1536724290,"~/.ssh/authorized-keys"
--'  1  0  ~/.ssh/authorized-keys
-|4,39,1,0,1536724290,"~/.ssh/authorized-keys"
--'  1  0  ~/.ssh/authorized-keys
-|4,39,1,0,1536724290,"~/.ssh/authorized-keys"
--'  1  0  ~/.ssh/authorized-keys
-|4,39,1,0,1536724290,"~/.ssh/authorized-keys"
+-'  1  0  /lib/kbd
+|4,39,1,0,1537534987,"/lib/kbd"
+-'  1  0  /lib/kbd
+|4,39,1,0,1537534987,"/lib/kbd"
+-'  1  0  /lib/kbd
+|4,39,1,0,1537534987,"/lib/kbd"
+-'  1  0  /lib/kbd
+|4,39,1,0,1537534987,"/lib/kbd"
+-'  1  0  /lib/kbd
+|4,39,1,0,1537534987,"/lib/kbd"
+-'  1  0  /lib/kbd
+|4,39,1,0,1537534987,"/lib/kbd"
+-'  1  0  /lib/kbd
+|4,39,1,0,1537534987,"/lib/kbd"
+-'  1  0  /lib/kbd
+|4,39,1,0,1537534987,"/lib/kbd"
 
 # History of marks within files (newest to oldest):
+
+> ~/my-project/build.gradle
+	*	1539058302	0
+	"	5	31
+	^	5	32
+	.	5	32
+	+	2	1
+	+	5	12
+	+	2	2
+	+	5	30
+	+	3	1
+	+	6	0
+	+	5	32
 
 > /etc/yum.repos.d/docker.repo
 	*	1538024738	0
